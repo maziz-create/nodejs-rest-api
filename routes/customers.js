@@ -70,5 +70,18 @@ module.exports = server => {
         }
     });
 
+    //Delete Customer
+    server.del('/customers/:id', async (req, res, next) => {
+        try {
+            //bu işi değişkene atamamızın sebebi sanırım awaiti kullanabilmek için. asenkron olsun istiyoruz.
+            const customer = await Customer.findOneAndRemove({ _id: req.params.id });
+
+            res.send(204); //iş tamam, kayıt silindi.
+            next(); //sonraki route'a geçmesi için.
+        } catch (error) {
+            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+        }
+    })
+
 
 }
