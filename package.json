@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maziz-create/nodejs-rest-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maziz-create/nodejs-rest-api/issues"
+  },
+  "homepage": "https://github.com/maziz-create/nodejs-rest-api#readme",
+  "dependencies": {
+    "mongoose": "^6.0.7",
+    "mongoose-timestamp": "^0.6.0",
+    "restify": "^8.5.1",
+    "restify-errors": "^8.0.2"
+  }
+}
