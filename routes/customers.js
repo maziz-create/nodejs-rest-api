@@ -22,7 +22,7 @@ module.exports = server => {
             res.send(customer);
             next();
         } catch (err) {
-            next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
         }
     });
 
@@ -47,7 +47,28 @@ module.exports = server => {
             res.send(201); //201: Her şey yolunda ve bir kayıt oluşturuldu.
             next();
         } catch (error) {
+            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+        }
+    });
+
+    //Update Customer
+    server.put('/customers/:id', async (req, res, next) => {
+        //Check for JSON => JSON gönderildiğinden emin olmalısın!
+        if (!req.is('application/json')) {
+            next(new errors.InvalidContentError("Expects 'application/json'"));
+        }
+
+        try {
+            const customer = await Customer.findOneAndUpdate(
+                { _id: req.params.id },
+                req.body, //body'deki alanları güncelleyecek.
+            );
+            res.send(200); //200: Her şey yolunda.
+            next();
+        } catch (error) {
             return next(new errors.InternalError(error.message));
         }
-    })
+    });
+
+
 }
