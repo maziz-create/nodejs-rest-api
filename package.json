@@ -22,5 +22,8 @@
     "mongoose-timestamp": "^0.6.0",
     "restify": "^8.5.1",
     "restify-errors": "^8.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
   }
 }
