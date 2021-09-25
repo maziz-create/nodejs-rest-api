@@ -18,6 +18,7 @@ const CustomerSchema = new mongoose.Schema({ //bildiğimiz model..
     }
 })
 
+//bütün recordlara updatedAd ve createdAd alanları ekliyor.  
 CustomerSchema.plugin(timestamp);
 
 const Customer = mongoose.model('Customer', CustomerSchema);
