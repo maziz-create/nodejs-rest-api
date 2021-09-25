@@ -15,6 +15,17 @@ module.exports = server => {
         }
     });
 
+    //Get Single Customer
+    server.get('/customers/:id', async (req, res, next) => {
+        try {
+            const customer = await Customer.findById(req.params.id);
+            res.send(customer);
+            next();
+        } catch (err) {
+            next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+        }
+    });
+
     //Add Customers
     server.post('/customers', async (req, res, next) => {
         //Check for JSON => JSON gönderildiğinden emin olmalısın!
@@ -34,7 +45,7 @@ module.exports = server => {
         try {
             const newCustomer = await customer.save(); //await kullanılmasa birsürü .then, cbFn kullanılacaktı..
             res.send(201); //201: Her şey yolunda ve bir kayıt oluşturuldu.
-            next(); //sonraki route'a geçmesi için.
+            next();
         } catch (error) {
             return next(new errors.InternalError(error.message));
         }
