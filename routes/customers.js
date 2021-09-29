@@ -1,7 +1,7 @@
 const errors = require('restify-errors'); //hatayı restify-errors ile gönderiyoruz.
 const Customer = require('../models/Customer'); //Modelimiz
 
-module.exports = server => {
+module.exports = server => { //index => db.once kısmındaki ilgili yere ulaşıyor buralar.
     //Get Customers
     server.get('/customers', async (req, res, next) => { //bu fetch işlemi tüm customers'i dönecek.
         // res.send({ msg: 'test' }); //for testing
