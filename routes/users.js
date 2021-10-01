@@ -1,6 +1,7 @@
 const errors = require('restify-errors');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const auth = require('../auth');
 
 module.exports = server => {
     //Register User
@@ -31,5 +32,22 @@ module.exports = server => {
                 }
             })
         })
+    })
+
+    // Auth User
+    server.post('/auth', async => (req, res, next) => {
+        const { email, password } = req.body;
+
+        try {
+            // Authenticate User
+            const user = await auth.authenticate(email, password); 
+            //auth.authenticate => promise döndürüyor. Bu yüzden await kullandık. await olmasa .then .then
+            console.log(user);
+            res.send(200); //sıkıntı yoktur!(postmana özel yazıldı.)
+            next(); //sonraki route'a geçmesi için
+        } catch (err) {
+            // User unauthorized
+            return next(new errors.UnauthorizedError(err));
+        }
     })
 }
