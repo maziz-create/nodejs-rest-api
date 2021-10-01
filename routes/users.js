@@ -1,7 +1,9 @@
 const errors = require('restify-errors');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../auth');
+const config = require('../config')
 
 module.exports = server => {
     //Register User
@@ -40,10 +42,21 @@ module.exports = server => {
 
         try {
             // Authenticate User
-            const user = await auth.authenticate(email, password); 
+            const user = await auth.authenticate(email, password);
             //auth.authenticate => promise döndürüyor. Bu yüzden await kullandık. await olmasa .then .then
-            console.log(user);
-            res.send(200); //sıkıntı yoktur!(postmana özel yazıldı.)
+
+            // Create JWT
+            // jwt.sign'a istediğini verebilirsin.
+            const token = jwt.sign(user.toJSON(), config.JWT_SECRET, {
+                expiresIn: '15m',
+            });
+
+            const { iat, exp } = jwt.decode(token); //token'i çöz. içindeki expiration ve iat'i al.
+            //iat => tam olarak bilemedim.. exp: expiration => tokenin geçerlilik süresi.
+
+            // Respond with token 
+            res.send({ iat, exp, token });
+
             next(); //sonraki route'a geçmesi için
         } catch (err) {
             // User unauthorized
